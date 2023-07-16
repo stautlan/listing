@@ -12,13 +12,6 @@ const CardData = (props: Props) => {
     return trimmedString;
   }
   function ConvertCurrency(argument: string, currency: string) {
-    let remnant = parseInt(argument.split('.')[1]);
-    remnant <= 10 ? 
-      console.log(remnant, 'level-low') :
-      (remnant > 10 && remnant <= 20) ?
-      console.log(remnant, 'level-medium') :
-      console.log(remnant, 'level-high')
-
     switch(currency) {
       case 'USD':
         return '$'+argument;
@@ -29,6 +22,13 @@ const CardData = (props: Props) => {
       default:
         return argument;
     }
+  }
+  function ColorPrice(value: string) {
+    let remnant = parseInt(value.split('.')[1]);
+    let result = remnant <= 10 ? 'level-low' :
+      (remnant > 10 && remnant <= 20) ? 'level-medium' :
+      'level-high';
+    return 'item-quantity ' + result;
   }
 
   return (
@@ -41,7 +41,7 @@ const CardData = (props: Props) => {
       <div className='item-details'>
         <p className='item-title'>{CharacterTrimmed(`${props.title}`, 50)}</p>
         <p className='item-price'>{ConvertCurrency(`${props.price}`, `${props.currency_code}`)}</p>
-        <p className='item-quantity level-low' key={props.listing_id}>{props.quantity} left</p>
+        <p className={ColorPrice(`${props.price}`)} key={props.listing_id}>{props.quantity} left</p>
       </div>
     </div>
   )
